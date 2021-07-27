@@ -29,6 +29,8 @@ import numpy as np
 import calendar
 import json
 
+
+
 # Configure application
 app = Flask(__name__)
 
@@ -120,7 +122,8 @@ def login():
 
         # User reached route via GET (as by clicking a link or via redirect)
     else:
-        return render_template("login.html")
+        return render_template(url_for('login'))
+        # return render_template("login.html")
 
 
 @app.route("/logout")
