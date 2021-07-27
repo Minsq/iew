@@ -1,0 +1,127 @@
+{% extends "layout.html" %}
+{% block title %}
+    Expenses
+{% endblock %}
+
+{% block main %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <form action="/expenses" method="post">
+                    <h2>Add income/expense</h2>
+
+                        <div class = "row">
+                            <p class="textParagraph">
+                                Date of transaction:
+                                <div class="form-group formatBox">
+                                    <input autocomplete="off" autofocus class="form-control" name="trans_date" type="date">
+                                </div>
+                            </p>
+                        </div>
+
+                        <div class = "row">
+                            <p class="textParagraph">
+                                Type of transaction:
+                                <div class="form-check form-group formatBox">
+                                    {% for transaction_typ in typ %}
+                                        <input type="radio" name="trans_type" {% if transaction_typ == "EXPENSE"%} checked {% endif %} value="{{ transaction_typ }}"> {{ transaction_typ }} </input><br>
+                                    {% endfor %}
+                                </div>
+                            </p>
+                        </div>
+
+                        <div class = "row">
+                            <p class="textParagraph">
+                                Category:
+                                <div class="form-group formatBox">
+                                    <select class="form-control" name="category" aria-label="Default select example">
+                                        <option value="" disabled selected> SELECT ONE </option>
+                                        {% for category in cat %}
+                                            <option value="{{ category }}"> {{ category }} </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </p>
+                        </div>
+
+                        <div class = "row">
+                            <p class="textParagraph">
+                                Item description
+                                <div class="form-group formatBox">
+                                    <input autocomplete="off" autofocus class="form-control" name="item" placeholder="description" type="text">
+                                </div>
+                            </p>
+                        </div>
+
+                        <div class = "row">
+                            <p class="textParagraph">
+                                Amount
+                                <div class="form-group formatBox">
+                                    <input autocomplete="off" autofocus class="form-control" name="amount" placeholder="$" type="number" step=".01">
+                                </div>
+                            </p>
+                        </div>
+
+                    <div class="col-md-9">
+                        <button name="submit-button" value="addButton" class="btn btn-pink float-right" type="submit">Add item</button>
+                    </div>
+                </form>
+            </div>
+
+            <!--##################### UPLOAD DATA FILE #########################-->
+            <div class="col-md-4">
+                <h2>OR Upload your transactions</h2>
+                    <span>See input format:</span>
+                    <img src="/static/images/instructions-upload.png" alt="excel-sheet" width="350" height="90" class="d-inline-block align-center" >
+
+                    <p id="uploadText">We are able to read the file so long as the columns are in this order: (date>type>category>item>amount).</p>
+                    <p id="uploadText">It is okay if your column names are not the same as ours. Please do not hide any fields or have hidden sheets.</p>
+
+                    <button class="btn btn-pink btn-sm" style="margin-bottom:10px;" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                        See allowed category names
+                    </button>
+                    <div class="collapse" id="collapseExample" style="margin-bottom:10px;">
+                      <div class="card card-body">
+                        ALLOWANCE, CLOTHES, COURSES, CASHBACK, DIGITAL AND STREAMING SVC, FOOD & DRINKS, ENTERTAINMENT, GROCERIES, HOBBY, HOME SUPPLIES, HOUSING, INSURANCE, MEDICAL, MEMBERSHIPS, TRANSPORT, UTILITIES, TRAVEL, SALARY, MISC
+                      </div>
+                    </div>
+
+
+                <!--javascript:submit_file();-->
+                <form action="/expenses" method="post" enctype="multipart/form-data">
+                    <input type="file" name="file" >
+                    <div id="pass-error"></div>
+
+                    <button name="submit-button" value="uploadButton" class="btn btn-pink float-right" type="submit">Upload</button>
+                </form>
+            </div>
+         </div>
+    </div>
+
+    <script>
+        // validate upload files
+        $("#uploadFile").change(function(){
+            let logError = document.querySelector("#pass-error");
+            let validExtensions = ['xlsx'];
+            let file = $(this).val().split('.').pop();
+            console.log(file);
+            if (validExtensions.indexOf(file) === -1){
+                logError.innerHTML = "Allowable format(s) : "+validExtensions.join(', ');
+                $(this).val('');
+            }
+            else{
+                logError.innerHTML = "";
+            }
+
+        });
+
+    </script>
+
+{% endblock %}
+
+
+
+<!--https://stackoverflow.com/questions/51438/how-to-get-a-files-media-type-mime-type-->
+
+

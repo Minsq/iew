@@ -1,0 +1,240 @@
+   p
+{
+    font-family: Helvetica;
+}
+
+#subscribe_box
+{
+    text-align:center;
+    padding: 100px 15px 15px;
+}
+
+.input-group
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.input-field
+{
+    background-color: #ffe2f6;  /*light pink*/
+    border: none;
+    padding:15px;
+    border-radius: 5px;
+    font-size:20px;
+    width:360px;
+}
+
+.modal-body {
+    width: 100%;
+    height: 100%;
+
+    justify-content: center;
+    align-items: center;
+}
+
+
+#modal-button
+{
+    width: 85px;
+    height: 40px;
+    font-size:15px;
+    text-align:center;
+    align-items: center;
+    padding: 0px;
+}
+.image{
+  height: 100%;
+  width: 100%;
+
+}
+
+
+.invalid-feedback
+{
+    font-size: 15px;
+}
+
+#pass-error
+{
+    color: red;
+}
+
+
+.textParagraph
+{
+
+    /*align-items: left;*/
+    text-align: left;
+    vertical-align: middle;
+    margin: 5px;
+    width: 30%;
+}
+
+.formatBox
+{
+    width: 40%;
+}
+
+#uploadText
+{
+    font-size: 14px;
+}
+
+
+.dash-display{
+    height: 140px;
+    background-color: #E4A0B7; /*hot pink*/
+    border-radius: 5px;
+    padding: 10px;
+    margin: 5px 5px 25px 5px;
+    align-items: center;
+
+    /*display: flex;*/
+    justify-content: space-evenly;
+    /*flex-direction: column;*/
+}
+
+/*.dash-text{*/
+    /*text-align: center;*/
+    /*color: #512889; dark purple*/
+/*}*/
+span{
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.iew-outer{
+    background-color: #ffe2f6;
+
+
+}
+.iew-gif{
+
+    border-radius: 5px;
+    /*border: 2px solid black;*/
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+
+}
+
+/*FOR RADIO BUTTON*/
+/*.wrapper{*/
+/*  display: inline-flex;*/
+/*  background: #fff;*/
+/*  height: 100px;*/
+/*  width: 400px;*/
+/*  align-items: center;*/
+/*  justify-content: space-evenly;*/
+/*  border-radius: 5px;*/
+/*  padding: 20px 15px;*/
+/*  box-shadow: 5px 5px 30px rgba(0,0,0,0.2);*/
+/*}*/
+/*.wrapper .option{*/
+/*  background: #fff;*/
+/*  height: 100%;*/
+/*  width: 100%;*/
+/*  display: flex;*/
+/*  align-items: center;*/
+/*  justify-content: space-evenly;*/
+/*  margin: 0 10px;*/
+/*  border-radius: 5px;*/
+/*  cursor: pointer;*/
+/*  padding: 0 10px;*/
+/*  border: 2px solid lightgrey;*/
+/*  transition: all 0.3s ease;*/
+/*}*/
+/*.wrapper .option .dot{*/
+/*  height: 20px;*/
+/*  width: 20px;*/
+/*  background: #d9d9d9;*/
+/*  border-radius: 50%;*/
+/*  position: relative;*/
+/*}*/
+/*.wrapper .option .dot::before{*/
+/*  position: absolute;*/
+/*  content: "";*/
+/*  top: 4px;*/
+/*  left: 4px;*/
+/*  width: 12px;*/
+/*  height: 12px;*/
+/*  background: #0069d9;*/
+/*  border-radius: 50%;*/
+/*  opacity: 0;*/
+/*  transform: scale(1.5);*/
+/*  transition: all 0.3s ease;*/
+/*}*/
+/*input[type="radio"]{*/
+/*  display: none;*/
+/*}*/
+/*#option-Income:checked:checked ~ .option-Income,*/
+/*#option-Expense:checked:checked ~ .option-Expense{*/
+/*  border-color: #0069d9;*/
+/*  background: #0069d9;*/
+/*}*/
+/*#option-Income:checked:checked ~ .option-Income .dot,*/
+/*#option-Expense:checked:checked ~ .option-Expense .dot{*/
+/*  background: #fff;*/
+/*}*/
+/*#option-Income:checked:checked ~ .option-Income .dot::before,*/
+/*#option-Expense:checked:checked ~ .option-Expense .dot::before{*/
+/*  opacity: 1;*/
+/*  transform: scale(1);*/
+/*}*/
+/*.wrapper .option span{*/
+/*  font-size: 20px;*/
+/*  color: #808080;*/
+/*}*/
+/*#option-Income:checked:checked ~ .option-Income span,*/
+/*#option-Expense:checked:checked ~ .option-Expense span{*/
+/*  color: #fff;*/
+/*}*/
+
+.btn-pink {
+  color: #000000;
+  background-color: #FFE2F6;
+  border-color: #E75480;
+}
+
+.btn-pink:hover,
+.btn-pink:focus,
+.btn-pink:active,
+.btn-pink.active,
+.open .dropdown-toggle.btn-pink {
+  color: #000000;
+  background-color: #E75480;
+  border-color: #E75480;
+}
+
+.btn-pink:active,
+.btn-pink.active,
+.open .dropdown-toggle.btn-pink {
+  background-image: none;
+}
+
+.btn-pink.disabled,
+.btn-pink[disabled],
+fieldset[disabled] .btn-pink,
+.btn-pink.disabled:hover,
+.btn-pink[disabled]:hover,
+fieldset[disabled] .btn-pink:hover,
+.btn-pink.disabled:focus,
+.btn-pink[disabled]:focus,
+fieldset[disabled] .btn-pink:focus,
+.btn-pink.disabled:active,
+.btn-pink[disabled]:active,
+fieldset[disabled] .btn-pink:active,
+.btn-pink.disabled.active,
+.btn-pink[disabled].active,
+fieldset[disabled] .btn-pink.active {
+  background-color: #FFE2F6;
+  border-color: #E75480;
+}
+
+.btn-pink .badge {
+  color: #FFE2F6;
+  background-color: #000000;
+}

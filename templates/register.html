@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Register
+{% endblock %}
+
+
+{% block main %}
+
+    <form action="/register" method="post">
+        <div class="form-group">
+            <input autocomplete="off" autofocus class="form-control" name="username" placeholder="Username" type="text">
+        </div>
+        <div class="form-group">
+            <input class="form-control" id="password" name="password" placeholder="Password" type="password">
+        </div>
+
+        <div id="pass-error"></div>
+
+        <div class="form-group">
+            <input class="form-control" name="confirmation" placeholder="Confirm Password" type="password">
+        </div>
+        <button id="Submit" class="btn btn-pink" type="submit">Register</button>
+    </form>
+
+
+    <script>
+
+        let pass = document.getElementById('password');
+        let logError = document.getElementById('pass-error');
+
+        pass.addEventListener('keyup', function(){
+            if (pass.value.length < 8)
+            {
+                logError.innerHTML = "Password must have at least 8 chars";
+                // console.log("Password must have at least 8 chars");
+            }
+            else{
+                logError.innerHTML = ""
+            }
+
+        });
+
+
+    // https://stackoverflow.com/questions/54641066/how-can-i-read-value-and-validate-password-length-in-javascript-using-keyup
+    </script>
+{% endblock %}
+
+
