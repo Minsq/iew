@@ -1,0 +1,71 @@
+{% extends "layout.html" %}
+{% block title %}
+    Home
+{% endblock %}
+
+{% block main %}
+
+    <div class="container">
+        <h2>Overview</h2>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="dash-display w-100">
+                    <span>{{ overview.num_upcoming_bills }}</span> scheduled payments @ <span>{{ overview.total_upcoming_payment | sgd }}</span> <br>
+
+                    BILL REMINDERS: <span>{{ overview.num_reminder }}</span> <br>
+                    Next deadline: <span>{{ overview.next_payment_date }} @ {{ overview.next_payment_amount | sgd }} </span>
+
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="dash-display w-100">
+                    <span> {{ overview.month_spent }}</span><br>
+                    Expenses: <span>{{ overview.lat_month_expenses | sgd }}</span> <br>
+                    Compared to last month <span>{{ overview.lat_month_expenses_change | percent }}</span>
+                </div>
+
+
+            </div>
+
+            <div class="col-md-4">
+                <div class="dash-display w-100">
+                    <span>{{ overview.month_saved }}</span> <br>
+                    Saved/overspent*: <span>{{ overview.amount_saved_overspent | sgd }}</span> <br>
+                    On track for saving for: <span>{{ overview.on_track_for_savings }}</span> <br>
+
+                    <footer>*assuming 30% of income is saved</footer>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <h2>Expenses over time</h2>
+
+            <div id="chart" class="chart"></div>
+
+        <h3>Allocation</h3>
+            <div id="chart_expenses" class="chart"></div>
+
+    </div>
+
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script type="text/javascript">
+        let graphs = {{ graphJSON | safe }};
+        Plotly.plot("chart",graphs, {});
+
+
+        let graphs_expenses = {{ graphJSON_expenses | safe}};
+        Plotly.plot("chart_expenses", graphs_expenses, {});
+
+    </script>
+{% endblock %}
+
+
+
+
+<!--https://towardsdatascience.com/web-visualization-with-plotly-and-flask-3660abf9c946-->
+

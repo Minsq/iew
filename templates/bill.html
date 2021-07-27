@@ -1,0 +1,261 @@
+{% extends "layout.html" %}
+{% block title %}
+    Home
+{% endblock %}
+
+
+{% block main %}
+    <div class = "row">
+        <div class="col-sm-6">
+        <h2>Schedule payments</h2>
+        </div>
+        <!--Add button to export to csv-->
+        <!--<div class="col-sm-2">-->
+        <!--    <button name="export-button" value="exportButton" class="btn btn-pink float-right btn-block" type="submit">Export CSV</button>-->
+        <!--</div>-->
+        <div class="col-sm-2">
+            <!--Add button to add bill reminders-->
+            <button name="bill-button" value="billButton" class="btn btn-pink float-right btn-block" data-toggle="modal" data-target="#addBillModal" type="submit">Add bill reminder</button>
+        </div>
+    </div>
+
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item"><a class="nav-link active" id="upcoming-tab" data-toggle="tab" href="#upcoming" role="tab" aria-controls="upcoming" aria-selected="true">Upcoming</a></li>
+        <li class="nav-item"><a class="nav-link" id="previous-tab" data-toggle="tab" href="#previous" role="tab" aria-controls="previous" aria-selected="false">Previous</a></li>
+        <!--<li class="nav-item"><a class="nav-link" id="cancelled-tab" data-toggle="tab" href="#cancelled" role="tab" aria-controls="cancelled" aria-selected="false">Cancelled</a></li>-->
+    </ul>
+    <div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="upcoming" role="tabpanel" aria-labelledby="upcoming-tab">
+        <table id="myTable" class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Payment Details</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Payment Due</th>
+                    <th scope="col">Payment Reminder</th>
+                    <th scope="col">Status</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <!--status to be default upcoming unless updated manually-->
+                    <!--<th scope="col">Recurring</th>-->
+
+                </tr>
+            </thead>
+            <tbody>
+                {% for trans in holdings %}
+                    {% if trans.status == 'UPCOMING' %}
+                    <tr>
+                        <td>{{ trans.details }}</td>
+                        <td>{{ trans.category }}</td>
+                        <td>{{ trans.amount | abs | sgd }}</td>
+                        <td>{{ trans.deadline | f_datetime }}</td>
+                        <td>{{ trans.reminder | f_datetime }}</td>
+                        <td>{{ trans.payment_status  }}</td>
+                        <td>
+                            <!--add paid button-->
+                            <form id="form" action="{{url_for('bill', action='paid', item_id=trans.id)}}" method="POST">
+                            <button class="btn btn-pink btn-sm" style="margin-bottom: 5px;" data-id="{{trans.id}}">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2-circle" viewBox="0 0 16 16">
+                                  <path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z"/>
+                                  <path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z"/>
+                                </svg>
+                            </form>
+                        </td>
+                        <td>
+                            <!--delete-->
+                            <form id="form" action="{{url_for('bill', action='delete', item_id=trans.id)}}" method="POST">
+                            <button class="btn btn-pink btn-sm" style="margin-bottom: 5px;" data-id="{{trans.id}}">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                    <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                                </svg>
+                            </form>
+                        </td>
+
+
+                    </tr>
+                    {% endif %}
+                {% endfor %}
+
+            </tbody>
+        </table>
+
+    </div>
+
+
+
+
+    <div class="tab-pane fade" id="previous" role="tabpanel" aria-labelledby="previous-tab">
+        <table id="myTable" class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Payment Details</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Payment Deadline</th>
+                    <th scope="col">Status</th>
+                    <th scope="col"></th>
+                    <!--status to be default upcoming unless updated manually-->
+                    <!--<th scope="col">Recurring</th>-->
+
+                </tr>
+            </thead>
+            <tbody>
+                {% for trans in holdings %}
+                    {% if trans.status == 'PAID' %}
+                    <tr>
+                        <td>{{ trans.details }}</td>
+                        <td>{{ trans.category }}</td>
+                        <td>{{ trans.amount | abs | sgd }}</td>
+                        <td>{{ trans.deadline | f_datetime }}</td>
+                        <td>{{ trans.status  }}</td>
+                        <td>
+                            <!--delete-->
+                            <form id="form" action="{{url_for('bill', action='delete', item_id=trans.id)}}" method="POST">
+                            <button class="btn btn-pink btn-sm" style="margin-bottom: 5px;" data-id="{{trans.id}}">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                    <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                                </svg>
+                            </form>
+                        </td>
+
+                    </tr>
+                    {% endif %}
+                {% endfor %}
+
+            </tbody>
+        </table>
+
+
+
+
+    </div>
+
+
+
+
+    </div>
+
+
+    <div class="modal fade" id="addBillModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add bill reminder</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+
+                <form action="/bills" method="post">
+                    <div class="modal-body">
+
+                        <div class = "row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <!--<p>Payment details</p>-->
+                                    <input type="text" class="form-control" name="item" placeholder ="Payment Details">
+                                </div>
+                            </div>
+
+                            <div class="col-sm-3">
+                                <select class="form-control" name="category" aria-label="Default select example">
+                                    <option value="" disabled selected> Select Category </option>
+                                    {% for category in cat %}
+                                        <option value="{{ category }}"> {{ category }} </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3"><span>Payment due: </span></div>
+                            <div class='col-sm-6'>
+                                <div class="form-group"><input autocomplete="off" id="payment_due" autofocus class="form-control" name="due_date" type="date" placeholder="Payment Due"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3"><span>Set reminder: </span></div>
+                            <div class='col-sm-6'>
+                                <div class="form-group"><input autocomplete="off" id="payment_reminder" disabled class="form-control" name="reminder_date" type="date" placeholder="Set reminder"></div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+
+                            <div class='col-sm-6'>
+                                <input autocomplete="off" autofocus class="form-control" name="amount" placeholder="Amount ($)" type="number" step=".01">
+                            </div>
+
+                            <div class="col-sm-3">
+                                <select class="form-control" name="status" aria-label="Default select example">
+                                    <option value="UPCOMING" selected> Upcoming </option>
+                                </select>
+
+
+
+                            </div>
+
+                            <p>
+                                <a class="tooltip-test" data-toggle="tooltip" title="For transactions that have been paid, please add directly to the expense tab.">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+                                      <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                      <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                                    </svg>
+                                </a>
+                            </p>
+
+
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <p class="mr-auto" style="text-align: left;">For transactions that have been paid, please add directly to the expense tab.</p>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button class="btn btn-pink" name="submit-button" value="addBills" type="submit">Add</button>
+                    </div>
+
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.25/datatables.min.css"/>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.25/datatables.min.js"></script>
+
+    <script>
+        // validate bill payments - 1) no empty fields 2) reminder < payment due date
+        var today = new Date().toISOString().split('T')[0];
+        document.getElementById("payment_due").setAttribute('min', today);
+        let set_due_date = document.querySelector("#payment_due");
+        set_due_date.addEventListener("change", function(){
+           $("#payment_reminder").removeAttr('disabled');
+           document.getElementById("payment_reminder").setAttribute('min', today);
+        //   console.log(set_due_date.value)
+           document.getElementById("payment_reminder").setAttribute('max', set_due_date.value);
+
+        });
+
+
+        $(document).on('click', '.nav-link', function () {
+            console.log($(this).attr("aria-controls"));
+        });
+
+        // get datatable format
+        $(document).ready( function () {
+            $('#myTable').DataTable();
+        } );
+
+
+
+    </script>
+
+
+
+
+
+{% endblock %}
