@@ -1,4 +1,4 @@
-# IEW - Ink.Eat.Wonder application
+# IEW - Ink.Eat.Wonder web application
 #### Video Demo: https://youtu.be/s_citLk3m4I
 #### Description: Level up your personal finance by tracking your expenses and paying your bills on time!
 
